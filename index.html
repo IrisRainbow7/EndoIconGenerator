@@ -29,7 +29,13 @@ function draw() {
     ctx.fillRect(0, 0, 500, 500);
     ctx.fillStyle = color2;
     ctx.beginPath();
-    ctx.moveTo(250, 0);
+    const oldShape = document.getElementById('oldShape').checked;
+    if (oldShape) {
+      ctx.moveTo(375, 0);
+      ctx.lineTo(250, 125);
+    } else {
+      ctx.moveTo(250, 0);
+    }
     ctx.lineTo(250, 250);
     ctx.lineTo(500, 0);
     ctx.closePath();
@@ -51,15 +57,35 @@ function draw() {
     ctx.fill();
   }
 }
+function onChange() {
+  const select = document.getElementById('themes');
+  const theme = parseInt(select.value);
+  if (theme !== -1) {
+    const check = document.getElementById('check');
+    check.checked = true;
+    color1 = document.getElementById('color1');
+    color2 = document.getElementById('color2');
+    const THEMES = [['#6c3524', '#89c997'], ['#17823C', '#e66c0f'], ['#73A9D9', '#011126'], ['#F05F8D', '#FFDBED'], ['#DF1111', '#ead02a'], ['#c8c6e2', '#a09bd8'], ['#f8550d', '#0f68a3']]
+    color1.value = THEMES[theme][0];
+    color2.value = THEMES[theme][1];
+    draw();
+  }
+}
 </script>
 </head>
 <body onLoad="draw()">
 <canvas id="canvas" width="500" height="500"></canvas>
 <p>
   <label>
+    旧シェイプ：<input type="checkbox" id="oldShape" onchange="draw()">
+  </label>
+</p>
+<p>
+  <label>
     色(色相のみ変更を推奨)：<input type="color" id="color0" value="#7cbd28" onchange="draw()">
   </label>
 </p>
+<hr>
 <p>
   <label>
     手動調整：<input type="checkbox" id="check" onchange="draw()">
@@ -75,18 +101,38 @@ function draw() {
     色2(手動調整用)：<input type="color" id="color2" value="#7cbd28" onchange="draw()">
   </label>
 </p>
+<p>
+  <select name="themes" id="themes" onchange="onChange()">
+    <option value="-1">テーマを選択</option>
+    <option value="0">チョコミント</option>
+    <option value="1">人参</option>
+    <option value="2">ブルーベリー</option>
+    <option value="3">桜</option>
+    <option value="4">オムライス</option>
+    <option value="5">藤</option>
+    <option value="6">日没</option>
+  </select>
+</p>
 <style>
 body {
-  font-size: xxx-large;
+  font-size: xx-large;
 }
 input[type="color"] {
   -webkit-appearance: none;
   border: none;
-  width: 64px;
-  height: 64px;
+  width: 40px;
+  height: 40px;
 }
 input[type=checkbox] {
-  transform: scale(3);
+  transform: scale(2.5);
+}
+select {
+  margin-left: 30px;
+  transform: scale(1.5);
+}
+p {
+ margin-top: 16px;
+ margin-bottom: 16px;
 }
 </style>
 </body>
